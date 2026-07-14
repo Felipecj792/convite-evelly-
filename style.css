@@ -1,0 +1,595 @@
+/* ============================================
+   CONVITE EVELY - 15 ANOS
+   ESTILOS COMPLETOS
+   ============================================ */
+
+/* --- Variáveis Globais --- */
+:root {
+    --bg-top: #fdeef2;
+    --bg-bot: #f6cedb;
+    --blush: #fbe7ec;
+    --line: #d98aa4;
+    --rose: #d68aa0;
+    --rose-deep: #b45c78;
+    --ink: #7a4256;
+    --paper: #fffafb;
+    --shadow: rgba(180, 92, 120, 0.25);
+}
+
+/* --- Reset --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    min-height: 100%;
+    background: linear-gradient(180deg, var(--bg-top) 0%, #fbe0e8 45%, var(--bg-bot) 100%);
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Layout Principal --- */
+.page {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.frame {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 250, 251, 0.6);
+    backdrop-filter: blur(2px);
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(180, 92, 120, 0.2);
+    padding: 10px;
+}
+
+/* --- Molduras Decorativas --- */
+.frame-border,
+.frame-border-inner {
+    position: absolute;
+    border: 1px solid var(--line);
+    opacity: 0.4;
+    pointer-events: none;
+    border-radius: 12px;
+}
+.frame-border {
+    inset: 0;
+}
+.frame-border-inner {
+    inset: 6px;
+    opacity: 0.25;
+}
+
+.frame-inner {
+    position: relative;
+    padding: 40px 20px 30px;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Elementos Decorativos Flutuantes (Ambient) --- */
+.ambient {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+.deco {
+    position: absolute;
+    opacity: 0.5;
+    animation: float 8s ease-in-out infinite;
+}
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(8deg);
+    }
+}
+.pearl {
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ffffff, #f2c9d6 80%);
+    box-shadow: 0 2px 6px var(--shadow);
+}
+.heart-ico {
+    color: #f0b7c7;
+}
+
+/* --- Laços e Flores (SVG) --- */
+.flourish {
+    position: absolute;
+    z-index: 2;
+    opacity: 0.7;
+}
+.fl-top {
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.fl-bottom {
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.corner-bow {
+    position: absolute;
+    width: 50px;
+    z-index: 3;
+    filter: drop-shadow(0 2px 4px var(--shadow));
+}
+.cb-tl {
+    top: -12px;
+    left: -12px;
+    transform: rotate(-15deg);
+}
+.cb-tr {
+    top: -12px;
+    right: -12px;
+    transform: rotate(15deg) scaleX(-1);
+}
+.cb-bl {
+    bottom: -12px;
+    left: -12px;
+    transform: rotate(15deg) scaleY(-1);
+}
+.cb-br {
+    bottom: -2px;
+    right: -12px;
+    transform: rotate(-15deg) scale(-1, -1);
+}
+
+.menu-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fffdfd;
+    border: 1px solid var(--shadow);
+    box-shadow: 0 4px 10px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.menu-btn:hover {
+    transform: scale(1.1);
+}
+.menu-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* --- Cena do Envelope --- */
+#envelope-scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: opacity 0.5s ease;
+}
+
+.envelope-wrap {
+    position: relative;
+    width: 260px;
+    height: 200px;
+    perspective: 1400px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    margin-bottom: 15px;
+}
+
+.env-corner-bow {
+    position: absolute;
+    width: 35px;
+    z-index: 6;
+    filter: drop-shadow(0 2px 4px var(--shadow));
+}
+.ecb-tl {
+    top: -12px;
+    left: -10px;
+    transform: rotate(-20deg);
+}
+.ecb-tr {
+    top: -12px;
+    right: -10px;
+    transform: rotate(20deg) scaleX(-1);
+}
+.ecb-bl {
+    bottom: -12px;
+    left: -10px;
+    transform: rotate(20deg) scaleY(-1);
+}
+.ecb-br {
+    bottom: -12px;
+    right: -10px;
+    transform: rotate(-20deg) scale(-1, -1);
+}
+
+.letter-peek {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    height: 130px;
+    background: var(--paper);
+    border: 1px solid var(--shadow);
+    z-index: 1;
+    transform: translateY(0);
+    transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+    border-radius: 4px;
+}
+
+.envelope-body {
+    position: absolute;
+    inset: 0;
+    background: var(--blush);
+    border: 1px solid var(--line);
+    z-index: 2;
+    border-radius: 6px;
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.flap-3d {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 110px;
+    transform-origin: top center;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.6, -0.1, 0.25, 1);
+    z-index: 4;
+}
+.flap-shape {
+    position: absolute;
+    inset: 0;
+    background: var(--blush);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    backface-visibility: hidden;
+    border-radius: 6px 6px 0 0;
+}
+.flap-3d svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    backface-visibility: hidden;
+}
+
+.seal-group {
+    position: absolute;
+    top: 105px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 7;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.seal-group svg {
+    display: block;
+    width: 80px;
+    height: auto;
+}
+
+.tap-cursor {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    animation: tapmove 1.8s ease-in-out infinite;
+    opacity: 0.7;
+}
+@keyframes tapmove {
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateX(-50%) translateY(8px);
+        opacity: 0.3;
+    }
+}
+
+.envelope-wrap.opening .flap-3d {
+    transform: rotateX(178deg);
+}
+.envelope-wrap.opening .seal-group {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+}
+.envelope-wrap.opening .letter-peek {
+    transform: translateY(-320px) scale(1.02);
+}
+.envelope-wrap.opening .tap-cursor {
+    opacity: 0;
+}
+
+.envelope-hint {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.2em;
+    font-size: 11px;
+    color: var(--rose-deep);
+    opacity: 0.7;
+    text-align: center;
+    margin-top: 8px;
+}
+
+/* --- Conteúdo do Convite --- */
+#invitation {
+    position: relative;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.9s ease 0.3s;
+    width: 100%;
+    text-align: center;
+}
+#invitation.show {
+    opacity: 1;
+    max-height: 1500px;
+    overflow: visible;
+}
+
+.card-inner {
+    position: relative;
+    padding: 10px 10px 20px;
+}
+
+/* --- Título "Evely Debut" --- */
+.debut-title {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--rose-deep);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+/* --- Linha divisória decorativa --- */
+.divider-line {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rose-deep), transparent);
+    margin: 10px auto;
+    opacity: 0.5;
+}
+
+/* --- 15 ANOS --- */
+.years {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    color: var(--rose-deep);
+    margin: 6px 0;
+}
+
+/* --- Nome: Evely --- */
+.name {
+    font-family: 'Alex Brush', cursive;
+    font-size: 72px;
+    line-height: 1;
+    color: var(--rose);
+    margin: 0 0 4px;
+    text-shadow: 0 2px 12px var(--shadow);
+}
+
+/* --- Mensagem --- */
+.message {
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: 0.05em;
+    max-width: 300px;
+    margin: 12px auto 20px;
+    color: var(--ink);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+/* --- Data --- */
+.date-block {
+    margin: 0 auto 18px;
+}
+.month {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.4em;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rose-deep);
+    margin-bottom: 2px;
+}
+.date-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.day-big {
+    font-family: 'Cinzel', serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--rose-deep);
+    line-height: 1;
+}
+.date-info {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 4px 0;
+}
+.side-label {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+    font-weight: 500;
+}
+.year-row {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--rose-deep);
+    margin-top: 4px;
+}
+
+/* --- Local --- */
+
+.venue {
+    background: var(--rose);
+    color: #fff;
+    padding: 14px 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    max-width: 280px;
+    margin: 0 auto 20px;
+    box-shadow: 0 10px 25px -12px var(--rose-deep);
+    border-radius: 4px;
+}
+
+/* --- RSVP --- */
+.rsvp {
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 6px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* --- Botões --- */
+.actions {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+.btn {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    color: #fff;
+    background: var(--rose-deep);
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 8px 20px -8px var(--rose-deep);
+    width: 100%;
+    max-width: 240px;
+    text-align: center;
+}
+.btn:hover {
+    transform: translateY(-3px);
+    background: #a24e69;
+    box-shadow: 0 12px 28px -8px var(--rose-deep);
+}
+.btn.ghost {
+    background: transparent;
+    color: var(--rose-deep);
+    border: 1px solid var(--rose-deep);
+    box-shadow: none;
+}
+.btn.ghost:hover {
+    background: rgba(180, 92, 120, 0.08);
+    transform: translateY(-2px);
+}
+
+/* --- Responsividade --- */
+@media (max-width: 400px) {
+    .frame-inner {
+        padding: 30px 12px 20px;
+    }
+    .name {
+        font-size: 56px;
+    }
+    .day-big {
+        font-size: 52px;
+    }
+    .debut-title {
+        font-size: 18px;
+    }
+    .years {
+        font-size: 22px;
+    }
+    .envelope-wrap {
+        width: 220px;
+        height: 170px;
+    }
+    .letter-peek {
+        height: 110px;
+    }
+    .flap-3d {
+        height: 90px;
+    }
+    .seal-group {
+        top: 88px;
+    }
+    .seal-group svg {
+        width: 70px;
+    }
+    .envelope-wrap.opening .letter-peek {
+        transform: translateY(-270px) scale(1.02);
+    }
+    .corner-bow {
+        width: 40px;
+    }
+    .env-corner-bow {
+        width: 30px;
+    }
+    .message {
+        font-size: 17px;
+    }
+    .venue {
+        font-size: 13px;
+    }
+    .rsvp {
+        font-size: 19px;
+    }
+}
+
+/* --- Acessibilidade: Reduzir animações --- */
+@media (prefers-reduced-motion: reduce) {
+    .flap-3d,
+    .letter-peek,
+    #invitation,
+    .tap-cursor,
+    .deco {
+        transition: none !important;
+        animation: none !important;
+    }
+}

@@ -4,595 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evelly · 15 Anos</title>
+    
+    <!-- CSS EXTERNO -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- FONTES GOOGLE -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        /* --- Reset e Estilos Globais --- */
-        :root {
-            --bg-top: #fdeef2;
-            --bg-bot: #f6cedb;
-            --blush: #fbe7ec;
-            --line: #d98aa4;
-            --rose: #d68aa0;
-            --rose-deep: #b45c78;
-            --ink: #7a4256;
-            --paper: #fffafb;
-            --shadow: rgba(180, 92, 120, 0.25);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html,
-        body {
-            min-height: 100%;
-            background: linear-gradient(180deg, var(--bg-top) 0%, #fbe0e8 45%, var(--bg-bot) 100%);
-            font-family: 'Cormorant Garamond', serif;
-            color: var(--ink);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* --- Layout Principal --- */
-        .page {
-            position: relative;
-            width: 100%;
-            max-width: 480px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .frame {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            background: rgba(255, 250, 251, 0.6);
-            backdrop-filter: blur(2px);
-            border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(180, 92, 120, 0.2);
-            padding: 10px;
-        }
-
-        /* --- Molduras Decorativas --- */
-        .frame-border,
-        .frame-border-inner {
-            position: absolute;
-            border: 1px solid var(--line);
-            opacity: 0.4;
-            pointer-events: none;
-            border-radius: 12px;
-        }
-        .frame-border {
-            inset: 0;
-        }
-        .frame-border-inner {
-            inset: 6px;
-            opacity: 0.25;
-        }
-
-        .frame-inner {
-            position: relative;
-            padding: 40px 20px 30px;
-            min-height: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* --- Elementos Decorativos Flutuantes (Ambient) --- */
-        .ambient {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        .deco {
-            position: absolute;
-            opacity: 0.5;
-            animation: float 8s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-15px) rotate(8deg);
-            }
-        }
-        .pearl {
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 30%, #ffffff, #f2c9d6 80%);
-            box-shadow: 0 2px 6px var(--shadow);
-        }
-        .heart-ico {
-            color: #f0b7c7;
-        }
-
-        /* --- Laços e Flores (SVG) --- */
-        .flourish {
-            position: absolute;
-            z-index: 2;
-            opacity: 0.7;
-        }
-        .fl-top {
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .fl-bottom {
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .corner-bow {
-            position: absolute;
-            width: 50px;
-            z-index: 3;
-            filter: drop-shadow(0 2px 4px var(--shadow));
-        }
-        .cb-tl {
-            top: -12px;
-            left: -12px;
-            transform: rotate(-15deg);
-        }
-        .cb-tr {
-            top: -12px;
-            right: -12px;
-            transform: rotate(15deg) scaleX(-1);
-        }
-        .cb-bl {
-            bottom: -12px;
-            left: -12px;
-            transform: rotate(15deg) scaleY(-1);
-        }
-        .cb-br {
-            bottom: -12px;
-            right: -12px;
-            transform: rotate(-15deg) scale(-1, -1);
-        }
-
-        .menu-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #fffdfd;
-            border: 1px solid var(--shadow);
-            box-shadow: 0 4px 10px var(--shadow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .menu-btn:hover {
-            transform: scale(1.1);
-        }
-        .menu-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* --- Cena do Envelope --- */
-        #envelope-scene {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            transition: opacity 0.5s ease;
-        }
-
-        .envelope-wrap {
-            position: relative;
-            width: 260px;
-            height: 200px;
-            perspective: 1400px;
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-            margin-bottom: 15px;
-        }
-
-        .env-corner-bow {
-            position: absolute;
-            width: 35px;
-            z-index: 6;
-            filter: drop-shadow(0 2px 4px var(--shadow));
-        }
-        .ecb-tl {
-            top: -12px;
-            left: -10px;
-            transform: rotate(-20deg);
-        }
-        .ecb-tr {
-            top: -12px;
-            right: -10px;
-            transform: rotate(20deg) scaleX(-1);
-        }
-        .ecb-bl {
-            bottom: -12px;
-            left: -10px;
-            transform: rotate(20deg) scaleY(-1);
-        }
-        .ecb-br {
-            bottom: -12px;
-            right: -10px;
-            transform: rotate(-20deg) scale(-1, -1);
-        }
-
-        .letter-peek {
-            position: absolute;
-            left: 10px;
-            right: 10px;
-            bottom: 10px;
-            height: 130px;
-            background: var(--paper);
-            border: 1px solid var(--shadow);
-            z-index: 1;
-            transform: translateY(0);
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
-            border-radius: 4px;
-        }
-
-        .envelope-body {
-            position: absolute;
-            inset: 0;
-            background: var(--blush);
-            border: 1px solid var(--line);
-            z-index: 2;
-            border-radius: 6px;
-            box-shadow: 0 8px 20px var(--shadow);
-        }
-
-        .flap-3d {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 110px;
-            transform-origin: top center;
-            transform-style: preserve-3d;
-            transition: transform 1s cubic-bezier(0.6, -0.1, 0.25, 1);
-            z-index: 4;
-        }
-        .flap-shape {
-            position: absolute;
-            inset: 0;
-            background: var(--blush);
-            clip-path: polygon(0 0, 100% 0, 50% 100%);
-            backface-visibility: hidden;
-            border-radius: 6px 6px 0 0;
-        }
-        .flap-3d svg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            backface-visibility: hidden;
-        }
-
-        .seal-group {
-            position: absolute;
-            top: 105px;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 7;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .seal-group svg {
-            display: block;
-            width: 80px;
-            height: auto;
-        }
-
-        .tap-cursor {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 6;
-            animation: tapmove 1.8s ease-in-out infinite;
-            opacity: 0.7;
-        }
-        @keyframes tapmove {
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(0);
-                opacity: 0.7;
-            }
-            50% {
-                transform: translateX(-50%) translateY(8px);
-                opacity: 0.3;
-            }
-        }
-
-        .envelope-wrap.opening .flap-3d {
-            transform: rotateX(178deg);
-        }
-        .envelope-wrap.opening .seal-group {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.6);
-        }
-        .envelope-wrap.opening .letter-peek {
-            transform: translateY(-320px) scale(1.02);
-        }
-        .envelope-wrap.opening .tap-cursor {
-            opacity: 0;
-        }
-
-        .envelope-hint {
-            font-family: 'Cinzel', serif;
-            letter-spacing: 0.2em;
-            font-size: 11px;
-            color: var(--rose-deep);
-            opacity: 0.7;
-            text-align: center;
-            margin-top: 8px;
-        }
-
-        /* --- Conteúdo do Convite --- */
-        #invitation {
-            position: relative;
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: opacity 0.9s ease 0.3s;
-            width: 100%;
-            text-align: center;
-        }
-        #invitation.show {
-            opacity: 1;
-            max-height: 1500px;
-            overflow: visible;
-        }
-
-        .card-inner {
-            position: relative;
-            padding: 10px 10px 20px;
-        }
-
-        .top-bow {
-            width: 120px;
-            margin: 0 auto 5px;
-            display: block;
-        }
-
-        .eyebrow-line {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 8px 0 4px;
-        }
-        .eyebrow-line .rule {
-            height: 1px;
-            width: 45px;
-            background: linear-gradient(90deg, transparent, var(--rose-deep), transparent);
-        }
-        .eyebrow-line .heart {
-            color: var(--rose-deep);
-            font-size: 12px;
-        }
-
-        .years {
-            font-family: 'Cinzel', serif;
-            letter-spacing: 0.3em;
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--rose-deep);
-            margin: 4px 0 8px;
-        }
-
-        .name {
-            font-family: 'Alex Brush', cursive;
-            font-size: 64px;
-            line-height: 1;
-            color: var(--rose);
-            margin: 0 0 4px;
-            text-shadow: 0 2px 12px var(--shadow);
-        }
-
-        .name-divider {
-            width: 90px;
-            margin: 0 auto 16px;
-            opacity: 0.7;
-        }
-
-        .message {
-            font-size: 16px;
-            line-height: 1.6;
-            letter-spacing: 0.02em;
-            max-width: 280px;
-            margin: 0 auto 22px;
-            color: var(--ink);
-        }
-
-        .date-block {
-            margin: 0 auto 20px;
-        }
-        .month {
-            font-family: 'Cinzel', serif;
-            letter-spacing: 0.3em;
-            font-size: 13px;
-            color: var(--rose-deep);
-            margin-bottom: 2px;
-        }
-        .date-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-        }
-        .date-row .rule {
-            height: 1px;
-            width: 40px;
-            background: var(--rose-deep);
-            opacity: 0.5;
-        }
-        .day-big {
-            font-family: 'Cinzel', serif;
-            font-size: 52px;
-            font-weight: 500;
-            color: var(--rose-deep);
-            line-height: 1;
-        }
-        .side-label {
-            font-size: 15px;
-            letter-spacing: 0.15em;
-            color: var(--ink);
-        }
-        .year-row {
-            margin-top: 4px;
-            font-size: 15px;
-            letter-spacing: 0.15em;
-            color: var(--rose-deep);
-        }
-
-        .venue {
-            background: var(--rose);
-            color: #fff;
-            padding: 14px 20px;
-            font-family: 'Cinzel', serif;
-            font-size: 12px;
-            letter-spacing: 0.1em;
-            line-height: 1.8;
-            max-width: 280px;
-            margin: 0 auto 20px;
-            box-shadow: 0 10px 25px -12px var(--rose-deep);
-            border-radius: 4px;
-        }
-
-        .rsvp-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .rsvp-divider .rule {
-            height: 1px;
-            width: 35px;
-            background: var(--rose-deep);
-            opacity: 0.4;
-        }
-
-        .rsvp {
-            font-size: 15px;
-            letter-spacing: 0.03em;
-            line-height: 1.6;
-            color: var(--ink);
-            margin-bottom: 6px;
-        }
-
-        .actions {
-            margin-top: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: center;
-        }
-        .btn {
-            font-family: 'Cinzel', serif;
-            font-size: 11px;
-            letter-spacing: 0.15em;
-            text-decoration: none;
-            color: #fff;
-            background: var(--rose-deep);
-            padding: 12px 24px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
-            box-shadow: 0 8px 20px -8px var(--rose-deep);
-            width: 100%;
-            max-width: 240px;
-            text-align: center;
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-            background: #a24e69;
-            box-shadow: 0 12px 28px -8px var(--rose-deep);
-        }
-        .btn.ghost {
-            background: transparent;
-            color: var(--rose-deep);
-            border: 1px solid var(--rose-deep);
-            box-shadow: none;
-        }
-        .btn.ghost:hover {
-            background: rgba(180, 92, 120, 0.08);
-            transform: translateY(-2px);
-        }
-
-        /* --- Responsividade --- */
-        @media (max-width: 400px) {
-            .frame-inner {
-                padding: 30px 12px 20px;
-            }
-            .name {
-                font-size: 52px;
-            }
-            .day-big {
-                font-size: 44px;
-            }
-            .envelope-wrap {
-                width: 220px;
-                height: 170px;
-            }
-            .letter-peek {
-                height: 110px;
-            }
-            .flap-3d {
-                height: 90px;
-            }
-            .seal-group {
-                top: 88px;
-            }
-            .seal-group svg {
-                width: 70px;
-            }
-            .envelope-wrap.opening .letter-peek {
-                transform: translateY(-270px) scale(1.02);
-            }
-            .corner-bow {
-                width: 40px;
-            }
-            .env-corner-bow {
-                width: 30px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .flap-3d,
-            .letter-peek,
-            #invitation,
-            .tap-cursor,
-            .deco {
-                transition: none !important;
-                animation: none !important;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Elementos de fundo (perolas e corações) -->
+    <!-- Elementos de fundo (pérolas e corações) -->
     <div class="ambient" id="ambient" aria-hidden="true"></div>
 
     <div class="page">
@@ -616,12 +39,10 @@
             <svg class="corner-bow cb-bl" viewBox="0 0 100 70" aria-hidden="true"><use href="#bowIcon"/></svg>
             <svg class="corner-bow cb-br" viewBox="0 0 100 70" aria-hidden="true"><use href="#bowIcon"/></svg>
 
-            <!-- Botão Menu (recomeçar) -->
-            <div class="menu-btn" id="menuBtn" title="Recomeçar" aria-label="Recomeçar">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#b45c78" stroke-width="2" stroke-linecap="round">
-                    <line x1="3" y1="6" x2="21" y2="6"/>
-                    <line x1="3" y1="12" x2="21" y2="12"/>
-                    <line x1="3" y1="18" x2="21" y2="18"/>
+            <!-- Botão Voltar (Seta) -->
+            <div class="menu-btn" id="menuBtn" title="Voltar" aria-label="Voltar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#b45c78" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"/>
                 </svg>
             </div>
 
@@ -657,4 +78,237 @@
                                 </defs>
                                 <g fill="#eda6bc">
                                     <path d="M50 35 C35 12 12 12 12 28 C12 50 35 42 50 35 Z"/>
-                      
+                                    <path d="M50 35 C65 12 88 12 88 28 C88 50 65 42 50 35 Z"/>
+                                    <path d="M50 35 C42 48 35 58 25 62 C30 54 40 45 50 35 Z" opacity="0.85"/>
+                                    <path d="M50 35 C58 48 65 58 75 62 C70 54 60 45 50 35 Z" opacity="0.85"/>
+                                </g>
+                                <circle cx="50" cy="30" r="22" fill="url(#sealGrad)" stroke="#b96780" stroke-width="0.5"/>
+                                <text x="50" y="40" text-anchor="middle" font-family="'Alex Brush', cursive" font-size="28" fill="#fbe4ea">E</text>
+                            </svg>
+                        </div>
+
+                        <svg class="tap-cursor" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#b45c78" stroke-width="1.5" aria-hidden="true">
+                            <path d="M9 12.5V6.5a1.5 1.5 0 0 1 3 0v4"/>
+                            <path d="M12 10.5V5a1.5 1.5 0 0 1 3 0v6"/>
+                            <path d="M15 11V7a1.5 1.5 0 0 1 3 0v7c0 3.3-2.2 6-6 6s-5.7-1.8-6.8-3.6L3.8 14a1.4 1.4 0 0 1 2-2l1.2 1.2"/>
+                        </svg>
+                    </div>
+                    <p class="envelope-hint">clique no selo</p>
+                </div>
+
+                <!-- ====== CONTEÚDO DO CONVITE (IGUAL À IMAGEM) ====== -->
+                <div id="invitation">
+                    <div class="card-inner">
+
+                        <!-- Título: Evely Debut -->
+                        <div class="debut-title">Evely Debut</div>
+
+                        <!-- Linha decorativa -->
+                        <div class="divider-line"></div>
+
+                        <!-- 15 ANOS -->
+                        <div class="years">15 ANOS</div>
+
+                        <!-- Nome: Evely (sem o "ll") -->
+                        <h1 class="name">Evely</h1>
+
+                        <!-- Linha decorativa -->
+                        <div class="divider-line"></div>
+
+                        <!-- Mensagem -->
+                        <p class="message">
+                            SUA PRESENÇA TORNARÁ ESTE DIA AINDA MAIS ESPECIAL.<br>
+                            QUE POSSAMOS CRIAR LEMBRANÇAS LINDAS E INESQUECÍVEIS JUNTOS
+                        </p>
+
+                        <!-- Data -->
+                        <div class="date-block">
+                            <div class="month">AGOSTO</div>
+                            <div class="date-row">
+                                <span class="day-big">08</span>
+                            </div>
+                            <div class="date-info">
+                                <span class="side-label">SÁBADO</span>
+                                <span class="side-label">19:30</span>
+                            </div>
+                            <div class="year-row">2026</div>
+                        </div>
+
+                        <!-- Local -->
+                        <div class="venue">
+                            CERIMONIAL DE COMPOSIÇÃO<br>
+                            SOBRETAMA · ESPÍRITO SANTO
+                        </div>
+
+                        <!-- Linha decorativa -->
+                        <div class="divider-line"></div>
+
+                        <!-- RSVP -->
+                        <p class="rsvp">
+                            PEDIMOS A GENTILEZA DE CONFIRMAR SUA PRESENÇA<br>
+                            prazo: 20/07/2026.
+                        </p>
+
+                        <!-- Botões -->
+                        <div class="actions">
+                            <a class="btn" href="https://wa.me/5527999999999?text=Confirmo%20minha%20presença%20nos%2015%20anos%20da%20Evely!%20Estou%20muito%20feliz%20em%20participar!%20🥳" target="_blank" rel="noopener">CONFIRMAR PRESENÇA</a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Ícone de laço compartilhado -->
+    <svg width="0" height="0" style="position:absolute">
+        <symbol id="bowIcon" viewBox="0 0 100 70">
+            <g fill="#eda6bc" stroke="#c46e8c" stroke-width="0.6">
+                <path d="M50 35 C30 5 5 5 5 25 C5 45 30 40 50 35 Z"/>
+                <path d="M50 35 C70 5 95 5 95 25 C95 45 70 40 50 35 Z"/>
+                <path d="M50 35 C40 45 32 62 20 65 C25 55 35 46 50 35 Z" opacity="0.85"/>
+                <path d="M50 35 C60 45 68 62 80 65 C75 55 65 46 50 35 Z" opacity="0.85"/>
+                <circle cx="50" cy="35" r="6.5" fill="#df8ba7" stroke="none"/>
+            </g>
+        </symbol>
+    </svg>
+
+    <script>
+        // --- Elementos ---
+        const wrap = document.getElementById('envelopeWrap');
+        const scene = document.getElementById('envelope-scene');
+        const invitation = document.getElementById('invitation');
+        const menuBtn = document.getElementById('menuBtn');
+
+        // --- Função para abrir o convite ---
+        function openInvite() {
+            if (wrap.classList.contains('opening')) return;
+            wrap.classList.add('opening');
+
+            setTimeout(() => {
+                scene.style.opacity = '0';
+                scene.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    scene.style.display = 'none';
+                    invitation.classList.add('show');
+                }, 350);
+            }, 900);
+        }
+
+        // --- Eventos do envelope ---
+        wrap.addEventListener('click', openInvite);
+        wrap.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openInvite();
+            }
+        });
+
+        // --- Botão "Voltar" (seta) ---
+        menuBtn.addEventListener('click', () => {
+            invitation.classList.remove('show');
+            scene.style.display = 'flex';
+            requestAnimationFrame(() => {
+                scene.style.opacity = '1';
+                scene.style.pointerEvents = 'auto';
+            });
+            wrap.classList.remove('opening');
+        });
+
+        // --- Botão "Adicionar à Agenda" ---
+        document.getElementById('addCalendar').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            try {
+                const icsContent = [
+                    'BEGIN:VCALENDAR',
+                    'VERSION:2.0',
+                    'PRODID:-//Evely 15 Anos//PT-BR',
+                    'CALSCALE:GREGORIAN',
+                    'BEGIN:VEVENT',
+                    'SUMMARY:15 Anos da Evely',
+                    'DTSTART:20260808T193000',
+                    'DTEND:20260808T230000',
+                    'LOCATION:Cerimonial de Composição, Sobretama, Espírito Santo',
+                    'DESCRIPTION:Sua presença tornará este dia ainda mais especial. Confirme sua presença até 06/08/2026.',
+                    'URL:https://wa.me/5527999999999',
+                    'END:VEVENT',
+                    'END:VCALENDAR'
+                ].join('\r\n');
+
+                const blob = new Blob([icsContent], { 
+                    type: 'text/calendar;charset=utf-8' 
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'convite-evely-15anos.ics';
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                }, 100);
+
+                const btn = this;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ ADICIONADO!';
+                btn.style.background = '#4CAF50';
+                btn.style.color = '#fff';
+                btn.style.borderColor = '#4CAF50';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'transparent';
+                    btn.style.color = 'var(--rose-deep)';
+                    btn.style.borderColor = 'var(--rose-deep)';
+                }, 3000);
+
+            } catch (error) {
+                alert('Erro ao gerar o arquivo. Tente novamente.');
+                console.error('Erro:', error);
+            }
+        });
+
+        // --- Gerar elementos decorativos de fundo ---
+        const ambient = document.getElementById('ambient');
+        const spots = [
+            { t: '8%', l: '18%', type: 'pearl', size: 9 },
+            { t: '14%', l: '82%', type: 'pearl', size: 11 },
+            { t: '26%', l: '6%', type: 'heart', size: 18 },
+            { t: '30%', l: '90%', type: 'heart', size: 16 },
+            { t: '42%', l: '4%', type: 'pearl', size: 8 },
+            { t: '48%', l: '94%', type: 'pearl', size: 9 },
+            { t: '68%', l: '12%', type: 'pearl', size: 10 },
+            { t: '72%', l: '88%', type: 'pearl', size: 11 },
+            { t: '80%', l: '5%', type: 'heart', size: 17 },
+            { t: '85%', l: '92%', type: 'heart', size: 15 },
+            { t: '92%', l: '30%', type: 'pearl', size: 7 },
+            { t: '5%', l: '55%', type: 'pearl', size: 6 }
+        ];
+
+        spots.forEach((sp, i) => {
+            const el = document.createElement('div');
+            el.className = 'deco';
+            el.style.top = sp.t;
+            el.style.left = sp.l;
+            el.style.animationDelay = (i * 0.5) + 's';
+
+            if (sp.type === 'pearl') {
+                el.classList.add('pearl');
+                el.style.width = sp.size + 'px';
+                el.style.height = sp.size + 'px';
+            } else {
+                el.classList.add('heart-ico');
+                el.innerHTML = '♥';
+                el.style.fontSize = sp.size + 'px';
+            }
+            ambient.appendChild(el);
+        });
+    </script>
+
+</body>
+</html>

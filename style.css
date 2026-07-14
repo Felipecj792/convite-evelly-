@@ -154,7 +154,7 @@ body {
     transform: rotate(15deg) scaleY(-1);
 }
 .cb-br {
-    bottom: -2px;
+    bottom: -12px;
     right: -12px;
     transform: rotate(-15deg) scale(-1, -1);
 }
@@ -462,7 +462,6 @@ body {
 }
 
 /* --- Local --- */
-
 .venue {
     background: var(--rose);
     color: #fff;
@@ -518,18 +517,8 @@ body {
     background: #a24e69;
     box-shadow: 0 12px 28px -8px var(--rose-deep);
 }
-.btn.ghost {
-    background: transparent;
-    color: var(--rose-deep);
-    border: 1px solid var(--rose-deep);
-    box-shadow: none;
-}
-.btn.ghost:hover {
-    background: rgba(180, 92, 120, 0.08);
-    transform: translateY(-2px);
-}
 
-/* --- Responsividade --- */
+/* --- Responsividade (TODOS OS SEUS TAMANHOS MANTIDOS) --- */
 @media (max-width: 400px) {
     .frame-inner {
         padding: 30px 12px 20px;
@@ -592,4 +581,4 @@ body {
         transition: none !important;
         animation: none !important;
     }
-}
+   }

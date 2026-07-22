@@ -653,3 +653,55 @@ footer {
   color: var(--cream);
   opacity: 1;
 }
+/* ===== TOAST (MENSAGENS BONITAS) ===== */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-panel);
+  border-radius: 16px;
+  padding: 16px 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  max-width: 90%;
+  min-width: 280px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.success {
+  border-color: #4CAF50;
+  border-left: 4px solid #4CAF50;
+}
+
+.toast.error {
+  border-color: #C1512E;
+  border-left: 4px solid #C1512E;
+}
+
+.toast.info {
+  border-color: var(--gold);
+  border-left: 4px solid var(--gold);
+}
+
+.toast-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  font-size: 14px;
+  color: var(--cream);
+  line-height: 1.5;
+  flex: 1;
+}

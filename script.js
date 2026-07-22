@@ -117,7 +117,7 @@
 
     confirmBtn.textContent = 'Presença confirmada ✓';
     confirmBtn.classList.add('confirmed');
-    confirmNote.textContent = 'Seu app de e-mail abriu com a confirmação pronta — é só enviar.';
+    confirmNote.textContent = 'obrigado por confimar';
 
     confirmedMsg.textContent = `Que alegria te ter com a gente, ${nome}! Sua confirmação já foi enviada.`;
     confirmedPanel.classList.add('show');

@@ -30,6 +30,8 @@ const modalBtnSkip = document.getElementById('modalBtnSkip');
 
 // ----- TOAST (mensagens bonitas) -----
 const toast = document.getElementById('toast');
+const toastMessage = document.getElementById('toastMessage');
+const toastIcon = document.getElementById('toastIcon');
 
 // ----- FUNÇÃO PARA FORMATAR ACOMPANHANTE -----
 function formatarAcompanhante(nome, sobrenome, acompanhante) {
@@ -73,10 +75,6 @@ function hideError() {
 
 // ----- MOSTRAR TOAST (mensagem bonita) -----
 function showToast(message, type = 'success') {
-  const toast = document.getElementById('toast');
-  const toastMessage = document.getElementById('toastMessage');
-  const toastIcon = document.getElementById('toastIcon');
-  
   toastMessage.textContent = message;
   
   if (type === 'success') {
@@ -100,8 +98,6 @@ function showToast(message, type = 'success') {
 // ----- SALVAR NO SUPABASE -----
 async function salvarConfirmacao(dados) {
   try {
-    console.log('Enviando para Supabase:', dados);
-    
     const response = await fetch(`${SUPABASE_URL}/rest/v1/confirmacoes`, {
       method: 'POST',
       headers: {
@@ -111,8 +107,6 @@ async function salvarConfirmacao(dados) {
       },
       body: JSON.stringify(dados)
     });
-
-    console.log('Resposta do Supabase:', response.status);
 
     if (!response.ok) {
       const erro = await response.text();
@@ -163,7 +157,6 @@ function verificarLoginSalvo() {
     try {
       const dados = JSON.parse(dadosSalvos);
       
-      // VERIFICA SE OS DADOS SÃO VÁLIDOS
       if (!dados.nome || !dados.sobrenome) {
         localStorage.removeItem('convidado_confirmado');
         return false;
@@ -259,8 +252,7 @@ async function confirmarPresenca(email) {
   const acompanhante = confirmBtn.dataset.acompanhante || '';
 
   try {
-    // Salva no Supabase
-    const resultado = await salvarConfirmacao({
+    await salvarConfirmacao({
       nome: nome,
       sobrenome: sobrenome,
       acompanhante: acompanhante || null,
@@ -268,8 +260,6 @@ async function confirmarPresenca(email) {
       telefone: null,
       status: 'confirmado'
     });
-
-    console.log('Salvo com sucesso:', resultado);
 
     // Atualiza localStorage
     const dadosSalvos = localStorage.getItem('convidado_confirmado');
@@ -291,7 +281,7 @@ async function confirmarPresenca(email) {
     // Abre o email (se tiver email)
     if (email) {
       const assunto = `Confirmação de presença — ${nome} ${sobrenome}`;
-      let corpo = `Olá Marina!\n\n${nome} ${sobrenome} confirmou presença no seu baile de 15 anos!\n`;
+      let corpo = `Olá Evelly!\n\n${nome} ${sobrenome} confirmou presença no seu baile de 15 anos!\n`;
       corpo += acompanhante
         ? `Vai levar acompanhante: ${acompanhante}.\n`
         : `Vai sozinho(a), sem acompanhante.\n`;
@@ -300,7 +290,6 @@ async function confirmarPresenca(email) {
 
       const link = `mailto:${EMAIL_ANFITRIA}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
       
-      // Abre o email em uma nova janela
       setTimeout(() => {
         window.open(link, '_blank');
       }, 500);
@@ -316,7 +305,7 @@ async function confirmarPresenca(email) {
 
   } catch (error) {
     console.error('Erro ao confirmar:', error);
-    showToast(`❌ Erro ao confirmar presença: ${error.message}`, 'error');
+    showToast(`❌ Erro ao confirmar presença. Tente novamente.`, 'error');
   }
 }
 
@@ -337,7 +326,6 @@ confirmBtn.addEventListener('click', function() {
 modalBtnConfirm.addEventListener('click', function() {
   const email = modalEmail.value.trim();
 
-  // Validação básica
   if (email && !email.includes('@')) {
     modalEmail.style.borderColor = '#C1512E';
     modalEmail.style.boxShadow = '0 0 0 4px rgba(193,81,46,0.2)';
@@ -371,15 +359,9 @@ modalEmail.addEventListener('keydown', function(e) {
   }
 });
 
-// ===== LIMPAR DADOS SALVOS (para teste) =====
-// Descomente a linha abaixo para limpar o localStorage e forçar o login
-// localStorage.removeItem('convidado_confirmado');
-
 // ===== INICIALIZAÇÃO =====
-// Verifica se tem dados salvos, se não tiver, mostra o login
 const temDadosSalvos = verificarLoginSalvo();
 
-// Se não tiver dados salvos, garante que o login está visível
 if (!temDadosSalvos) {
   loginCard.classList.remove('hidden');
   invite.classList.remove('show');
@@ -388,3 +370,6 @@ if (!temDadosSalvos) {
 
 hideError();
 confirmedPanel.classList.remove('show');
+
+// Limpar dados para teste (descomente se precisar)
+// localStorage.removeItem('convidado_confirmado');

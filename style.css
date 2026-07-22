@@ -1,707 +1,375 @@
-/* ---------- RESET & BASE ---------- */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+// ===== CREDENCIAIS DO SUPABASE =====
+const SUPABASE_URL = 'https://kykocdauoighogdwjdle.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5a29jZGF1b2lnaG9nZHdqZGxlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MDc0NTAsImV4cCI6MjEwMDI4MzQ1MH0.Ss3NcMoC7WA6JuwvL3gybfZKRww9pJgIgeWnxpLq2Yc';
 
-:root {
-  --bg-deep: #FDF6F0;
-  --bg-panel: #FFFBF8;
-  --gold: #D4A574;
-  --gold-soft: #E8C9A0;
-  --rose: #E8A0A0;
-  --rose-dark: #D48181;
-  --rose-light: #F5D6D6;
-  --cream: #4A3A3A;
-  --sage: #B8958A;
-  --text-light: #7A6A6A;
-  --error: #C1512E;
-  --radius: 12px;
-  --shadow: 0 8px 32px rgba(180, 120, 100, 0.15);
-}
+// ----- CONFIGURAÇÃO -----
+const CODIGO_VALIDO = "MARINA15";
+const EMAIL_ANFITRIA = "felipechat321@gmail.com";
 
-html,
-body {
-  min-height: 100%;
-  background: var(--bg-deep);
-  font-family: 'Jost', sans-serif;
-  color: var(--cream);
-}
+// ----- DOM -----
+const form = document.getElementById('loginForm');
+const loginCard = document.getElementById('loginCard');
+const invite = document.getElementById('invite');
+const errorMsg = document.getElementById('errorMsg');
 
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  position: relative;
-  overflow-x: hidden;
-}
+const nomeInput = document.getElementById('nome');
+const sobrenomeInput = document.getElementById('sobrenome');
+const acompanhanteInput = document.getElementById('acompanhante');
+const codigoInput = document.getElementById('codigo');
 
-/* fundo com flores delicadas */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at 10% 20%, rgba(212, 165, 116, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(232, 160, 160, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(232, 160, 160, 0.05) 0%, transparent 60%);
-  pointer-events: none;
-}
+const confirmBtn = document.getElementById('confirmBtn');
+const confirmNote = document.getElementById('confirmNote');
+const confirmedPanel = document.getElementById('confirmedPanel');
+const confirmedMsg = document.getElementById('confirmedMsg');
 
-/* ---------- STAGE ---------- */
-.stage {
-  width: 100%;
-  max-width: 460px;
-  position: relative;
-}
+// ----- MODAL -----
+const modal = document.getElementById('modalConfirmacao');
+const modalEmail = document.getElementById('modalEmail');
+const modalBtnConfirm = document.getElementById('modalBtnConfirm');
+const modalBtnSkip = document.getElementById('modalBtnSkip');
 
-.eyebrow {
-  text-align: center;
-  letter-spacing: .35em;
-  text-transform: uppercase;
-  font-size: 11px;
-  color: var(--sage);
-  margin-bottom: 14px;
-}
+// ----- TOAST (mensagens bonitas) -----
+const toast = document.getElementById('toast');
+const toastMessage = document.getElementById('toastMessage');
+const toastIcon = document.getElementById('toastIcon');
 
-/* ---------- CARTÃO DE ACESSO ---------- */
-#loginCard {
-  transition: all 0.6s ease;
-}
-
-#loginCard.hidden {
-  display: none;
-}
-
-.card {
-  background: var(--bg-panel);
-  border: 1px solid rgba(212, 165, 116, 0.3);
-  border-radius: var(--radius);
-  padding: 42px 34px 36px;
-  position: relative;
-  box-shadow: var(--shadow);
-  transition: opacity .6s ease, transform .6s ease;
-}
-
-.card::before,
-.card::after {
-  content: "✦";
-  position: absolute;
-  font-size: 16px;
-  color: var(--gold);
-  opacity: .5;
-}
-
-.card::before {
-  top: 14px;
-  left: 18px;
-}
-
-.card::after {
-  bottom: 14px;
-  right: 18px;
-}
-
-h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: 28px;
-  text-align: center;
-  margin: 0 0 6px;
-  color: var(--cream);
-  letter-spacing: .01em;
-}
-
-.sub {
-  text-align: center;
-  font-size: 14px;
-  color: var(--sage);
-  margin: 0 0 30px;
-  line-height: 1.6;
-}
-
-label {
-  display: block;
-  font-size: 11px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--sage);
-  margin-bottom: 6px;
-  margin-top: 18px;
-}
-
-label:first-of-type {
-  margin-top: 0;
-}
-
-input[type="text"] {
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid rgba(74, 58, 58, 0.2);
-  color: var(--cream);
-  font-family: 'Jost', sans-serif;
-  font-size: 16px;
-  padding: 8px 2px;
-  outline: none;
-  transition: border-color .25s ease;
-}
-
-input[type="text"]::placeholder {
-  color: rgba(74, 58, 58, 0.25);
-}
-
-input[type="text"]:focus {
-  border-bottom-color: var(--gold);
-}
-
-.hint {
-  font-size: 11px;
-  color: rgba(184, 149, 138, 0.8);
-  margin-top: 4px;
-}
-
-.submit {
-  width: 100%;
-  margin-top: 30px;
-  padding: 14px 16px;
-  background: var(--gold);
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  font-family: 'Jost', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all .2s ease;
-  box-shadow: 0 4px 15px rgba(212, 165, 116, 0.3);
-}
-
-.submit:hover {
-  background: var(--gold-soft);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(212, 165, 116, 0.4);
-}
-
-.submit:active {
-  transform: scale(.98);
-}
-
-.error-msg {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  padding: 10px 12px;
-  background: rgba(193, 81, 46, .12);
-  border: 1px solid rgba(193, 81, 46, .4);
-  color: #C1512E;
-  font-size: 13px;
-  border-radius: var(--radius);
-}
-
-.error-msg.show {
-  display: flex;
-}
-
-.shake {
-  animation: shake .4s ease;
-}
-
-@keyframes shake {
-  10%,
-  90% {
-    transform: translateX(-1px);
+// ----- FUNÇÃO PARA FORMATAR ACOMPANHANTE -----
+function formatarAcompanhante(nome, sobrenome, acompanhante) {
+  let texto = `${nome} ${sobrenome}`;
+  
+  if (acompanhante) {
+    let acompanhanteFormatado = acompanhante
+      .replace(/\b(minha|meu|meus|minhas)\b/gi, function(match) {
+        const mapa = {
+          'minha': 'sua',
+          'meu': 'seu',
+          'meus': 'seus',
+          'minhas': 'suas'
+        };
+        const lower = match.toLowerCase();
+        const substituido = mapa[lower] || match;
+        return match[0] === match[0].toUpperCase() 
+          ? substituido.charAt(0).toUpperCase() + substituido.slice(1)
+          : substituido;
+      });
+    
+    texto += ` e ${acompanhanteFormatado}`;
   }
-  20%,
-  80% {
-    transform: translateX(2px);
+  
+  return texto;
+}
+
+// ----- FUNÇÕES DE APOIO -----
+function showError(msg) {
+  errorMsg.textContent = msg;
+  errorMsg.classList.add('show');
+  loginCard.classList.remove('shake');
+  void loginCard.offsetWidth;
+  loginCard.classList.add('shake');
+}
+
+function hideError() {
+  errorMsg.classList.remove('show');
+  loginCard.classList.remove('shake');
+}
+
+// ----- MOSTRAR TOAST (mensagem bonita) -----
+function showToast(message, type = 'success') {
+  toastMessage.textContent = message;
+  
+  if (type === 'success') {
+    toastIcon.textContent = '✅';
+    toast.className = 'toast show success';
+  } else if (type === 'error') {
+    toastIcon.textContent = '❌';
+    toast.className = 'toast show error';
+  } else {
+    toastIcon.textContent = 'ℹ️';
+    toast.className = 'toast show info';
   }
-  30%,
-  50%,
-  70% {
-    transform: translateX(-4px);
-  }
-  40%,
-  60% {
-    transform: translateX(4px);
+  
+  // Esconde após 5 segundos
+  clearTimeout(toast.timeout);
+  toast.timeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 5000);
+}
+
+// ----- SALVAR NO SUPABASE -----
+async function salvarConfirmacao(dados) {
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/confirmacoes`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      },
+      body: JSON.stringify(dados)
+    });
+
+    if (!response.ok) {
+      const erro = await response.text();
+      console.error('Erro do Supabase:', erro);
+      throw new Error(`Erro ${response.status}: ${erro}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Erro ao salvar:', error);
+    throw error;
   }
 }
 
-/* ---------- FOOTER ---------- */
-footer {
-  text-align: center;
-  font-size: 11px;
-  color: rgba(184, 149, 138, 0.6);
-  margin-top: 16px;
-  margin-bottom: 8px;
-  letter-spacing: .05em;
-  padding: 8px 0;
-  border-top: 1px solid rgba(212, 165, 116, 0.2);
-}
+// ----- SALVAR ACESSO -----
+async function salvarAcesso() {
+  try {
+    let ip = 'desconhecido';
+    try {
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipResponse.json();
+      ip = ipData.ip;
+    } catch (e) {
+      console.warn('Não foi possível obter o IP');
+    }
 
-/* ---------- CONVITE REVELADO ---------- */
-.invite {
-  display: none;
-  background: var(--bg-panel);
-  border: 1px solid rgba(212, 165, 116, 0.3);
-  border-radius: var(--radius);
-  padding: 46px 34px 38px;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity .7s ease .1s, transform .7s ease .1s;
-  margin-top: 8px;
-  box-shadow: var(--shadow);
-  position: relative;
-}
-
-.invite::before {
-  content: "✦ ✦ ✦";
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg-panel);
-  padding: 0 12px;
-  font-size: 12px;
-  letter-spacing: 8px;
-  color: var(--gold);
-  opacity: 0.6;
-}
-
-.invite.show {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.invite .decorative-line {
-  font-size: 14px;
-  color: var(--gold);
-  opacity: 0.5;
-  margin-bottom: 12px;
-  letter-spacing: 4px;
-}
-
-.invite .greeting {
-  font-size: 13px;
-  color: var(--sage);
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.invite h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--sage);
-  margin: 0 0 2px;
-  letter-spacing: .05em;
-}
-
-.invite h3 {
-  font-family: 'Great Vibes', cursive;
-  font-weight: 400;
-  font-size: 28px;
-  color: var(--rose-dark);
-  margin: 0 0 4px;
-  letter-spacing: .02em;
-}
-
-.invite .name {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: 42px;
-  color: var(--cream);
-  margin: 2px 0 4px;
-  line-height: 1.05;
-}
-
-.invite .age {
-  font-size: 14px;
-  color: var(--sage);
-  margin-bottom: 26px;
-}
-
-.divider {
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  margin: 0 auto 26px;
-  opacity: .5;
-}
-
-.details {
-  display: grid;
-  gap: 16px;
-  text-align: left;
-  margin-bottom: 28px;
-}
-
-.detail-row {
-  display: grid;
-  grid-template-columns: 78px 1fr;
-  gap: 12px;
-  font-size: 14px;
-  align-items: baseline;
-}
-
-.detail-row .k {
-  font-size: 10px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--sage);
-}
-
-.detail-row .v {
-  color: var(--cream);
-}
-
-.rsvp-box {
-  background: rgba(232, 160, 160, 0.08);
-  border: 1px solid rgba(212, 165, 116, 0.25);
-  border-radius: var(--radius);
-  padding: 18px 18px;
-  font-size: 14px;
-  line-height: 1.65;
-  text-align: left;
-  color: var(--cream);
-  margin-bottom: 20px;
-}
-
-.rsvp-box b {
-  color: var(--rose-dark);
-}
-
-.confirm-btn {
-  width: 100%;
-  padding: 14px 16px;
-  background: var(--rose);
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  font-family: 'Jost', sans-serif;
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all .2s ease;
-  box-shadow: 0 4px 15px rgba(232, 160, 160, 0.3);
-}
-
-.confirm-btn:hover {
-  background: var(--rose-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(232, 160, 160, 0.4);
-}
-
-.confirm-btn:active {
-  transform: scale(.98);
-}
-
-.confirm-btn.confirmed {
-  background: transparent;
-  border: 1px solid var(--sage);
-  color: var(--sage);
-  cursor: default;
-  box-shadow: none;
-}
-
-.confirm-btn.confirmed:hover {
-  background: transparent;
-  transform: none;
-  box-shadow: none;
-}
-
-.confirm-note {
-  font-size: 11px;
-  color: rgba(184, 149, 138, 0.85);
-  margin-top: 10px;
-  line-height: 1.5;
-}
-
-/* ---------- TELA DE CONFIRMAÇÃO ---------- */
-.confirmed-panel {
-  display: none;
-  text-align: left;
-  background: rgba(232, 160, 160, 0.08);
-  border: 1px solid rgba(212, 165, 116, 0.3);
-  border-radius: var(--radius);
-  padding: 22px 20px;
-  margin-top: 4px;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .5s ease, transform .5s ease;
-}
-
-.confirmed-panel.show {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.confirmed-panel .check {
-  font-size: 12px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--rose-dark);
-  margin: 0 0 10px;
-}
-
-.confirmed-panel p {
-  margin: 0 0 14px;
-  font-size: 14px;
-  line-height: 1.65;
-  color: var(--cream);
-}
-
-.confirmed-panel .mini-details {
-  display: grid;
-  gap: 10px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(74, 58, 58, 0.1);
-}
-
-.confirmed-panel .mini-row {
-  display: grid;
-  grid-template-columns: 78px 1fr;
-  gap: 12px;
-  font-size: 13px;
-}
-
-.confirmed-panel .mini-row .k {
-  font-size: 10px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--sage);
-}
-
-.signature {
-  margin-top: 26px;
-  font-family: 'Great Vibes', cursive;
-  font-size: 22px;
-  color: var(--rose-dark);
-  letter-spacing: .02em;
-}
-
-/* ===== MODAL DE CONFIRMAÇÃO ===== */
-.modal-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  animation: fadeIn .3s ease;
-}
-
-.modal-overlay.active {
-  display: flex;
-}
-
-.modal-content {
-  background: var(--bg-panel);
-  border-radius: 20px;
-  padding: 40px 32px 32px;
-  max-width: 420px;
-  width: 100%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: slideUp .4s ease;
-  border: 1px solid rgba(212, 165, 116, 0.2);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    await fetch(`${SUPABASE_URL}/rest/v1/acessos`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      },
+      body: JSON.stringify({ 
+        ip: ip, 
+        user_agent: navigator.userAgent 
+      })
+    });
+  } catch (error) {
+    console.error('Erro ao salvar acesso:', error);
   }
 }
 
-.modal-header {
-  text-align: center;
-  margin-bottom: 16px;
+// ----- VERIFICAR SE JÁ ESTÁ LOGADO -----
+function verificarLoginSalvo() {
+  const dadosSalvos = localStorage.getItem('convidado_confirmado');
+  if (dadosSalvos) {
+    try {
+      const dados = JSON.parse(dadosSalvos);
+      
+      if (!dados.nome || !dados.sobrenome) {
+        localStorage.removeItem('convidado_confirmado');
+        return false;
+      }
+      
+      const nome = dados.nome;
+      const sobrenome = dados.sobrenome;
+      const acompanhante = dados.acompanhante || '';
+
+      const greeting = document.getElementById('greeting');
+      greeting.textContent = `Olá, ${nome}!`;
+
+      const rsvpName = document.getElementById('rsvpName');
+      const rsvpText = formatarAcompanhante(nome, sobrenome, acompanhante);
+      rsvpName.textContent = rsvpText;
+
+      loginCard.classList.add('hidden');
+      invite.classList.add('show');
+
+      confirmBtn.dataset.nome = nome;
+      confirmBtn.dataset.sobrenome = sobrenome;
+      confirmBtn.dataset.acompanhante = acompanhante;
+
+      if (dados.confirmado) {
+        confirmBtn.textContent = 'Presença confirmada ✓';
+        confirmBtn.classList.add('confirmed');
+        confirmNote.textContent = 'Sua presença já foi confirmada!';
+        confirmedMsg.textContent = `Que alegria te ter com a gente, ${nome}! Sua confirmação foi registrada.`;
+        confirmedPanel.classList.add('show');
+      }
+
+      return true;
+    } catch (e) {
+      console.error('Erro ao recuperar dados salvos:', e);
+      localStorage.removeItem('convidado_confirmado');
+      return false;
+    }
+  }
+  return false;
 }
 
-.modal-icon {
-  font-size: 40px;
-  display: block;
-  margin-bottom: 8px;
+// ----- SUBMISSÃO DO FORM -----
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const nome = nomeInput.value.trim();
+  const sobrenome = sobrenomeInput.value.trim();
+  const acompanhante = acompanhanteInput.value.trim();
+  const codigo = codigoInput.value.trim().toUpperCase();
+
+  if (!nome || !sobrenome || !codigo) {
+    showError('Preencha nome, sobrenome e código para continuar.');
+    return;
+  }
+
+  if (codigo !== CODIGO_VALIDO) {
+    showError('⚠️ Código incorreto. Verifique e tente novamente.');
+    return;
+  }
+
+  hideError();
+
+  const dadosConvidado = {
+    nome: nome,
+    sobrenome: sobrenome,
+    acompanhante: acompanhante,
+    confirmado: false,
+    data: new Date().toISOString()
+  };
+  localStorage.setItem('convidado_confirmado', JSON.stringify(dadosConvidado));
+
+  salvarAcesso();
+
+  const greeting = document.getElementById('greeting');
+  greeting.textContent = `Olá, ${nome}!`;
+
+  const rsvpName = document.getElementById('rsvpName');
+  const rsvpText = formatarAcompanhante(nome, sobrenome, acompanhante);
+  rsvpName.textContent = rsvpText;
+
+  loginCard.classList.add('hidden');
+  invite.classList.add('show');
+
+  confirmBtn.dataset.nome = nome;
+  confirmBtn.dataset.sobrenome = sobrenome;
+  confirmBtn.dataset.acompanhante = acompanhante;
+});
+
+// ===== FUNÇÃO PARA CONFIRMAR PRESENÇA =====
+async function confirmarPresenca(email) {
+  const nome = confirmBtn.dataset.nome || '';
+  const sobrenome = confirmBtn.dataset.sobrenome || '';
+  const acompanhante = confirmBtn.dataset.acompanhante || '';
+
+  try {
+    await salvarConfirmacao({
+      nome: nome,
+      sobrenome: sobrenome,
+      acompanhante: acompanhante || null,
+      email: email || null,
+      telefone: null,
+      status: 'confirmado'
+    });
+
+    // Atualiza localStorage
+    const dadosSalvos = localStorage.getItem('convidado_confirmado');
+    if (dadosSalvos) {
+      try {
+        const dados = JSON.parse(dadosSalvos);
+        dados.confirmado = true;
+        dados.email = email || '';
+        dados.data_confirmacao = new Date().toISOString();
+        localStorage.setItem('convidado_confirmado', JSON.stringify(dados));
+      } catch (e) {
+        console.error('Erro ao salvar confirmação no localStorage:', e);
+      }
+    }
+
+    // Mostra toast de sucesso
+    showToast(`✅ Presença confirmada! ${email ? 'Um email foi enviado para você.' : ''}`, 'success');
+
+    // Abre o email (se tiver email)
+    if (email) {
+      const assunto = `Confirmação de presença — ${nome} ${sobrenome}`;
+      let corpo = `Olá Evelly!\n\n${nome} ${sobrenome} confirmou presença no seu baile de 15 anos!\n`;
+      corpo += acompanhante
+        ? `Vai levar acompanhante: ${acompanhante}.\n`
+        : `Vai sozinho(a), sem acompanhante.\n`;
+      corpo += email ? `Email: ${email}\n` : '';
+      corpo += `\n📍 Local: Jardim Casa das Palmeiras — Rua das Acácias, 245\n📅 Data: Sábado, 10 de agosto de 2026 às 19h30\n\nAté lá! 🎉`;
+
+      const link = `mailto:${EMAIL_ANFITRIA}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+      
+      setTimeout(() => {
+        window.open(link, '_blank');
+      }, 500);
+    }
+
+    // Atualiza UI
+    confirmBtn.textContent = 'Presença confirmada ✓';
+    confirmBtn.classList.add('confirmed');
+    confirmNote.textContent = 'Sua presença foi confirmada! Você receberá um email com a localização.';
+
+    confirmedMsg.textContent = `Que alegria te ter com a gente, ${nome}! Sua confirmação foi registrada. 📍`;
+    confirmedPanel.classList.add('show');
+
+  } catch (error) {
+    console.error('Erro ao confirmar:', error);
+    showToast(`❌ Erro ao confirmar presença. Tente novamente.`, 'error');
+  }
 }
 
-.modal-content h3 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  color: var(--cream);
-  margin: 0;
-  font-weight: 600;
+// ===== EVENTOS DO MODAL =====
+
+// Abrir modal ao clicar em confirmar
+confirmBtn.addEventListener('click', function() {
+  if (confirmBtn.classList.contains('confirmed')) return;
+
+  modalEmail.value = '';
+  modalEmail.style.borderColor = '';
+  modalEmail.style.boxShadow = '';
+  modal.classList.add('active');
+  setTimeout(() => modalEmail.focus(), 300);
+});
+
+// Confirmar com email
+modalBtnConfirm.addEventListener('click', function() {
+  const email = modalEmail.value.trim();
+
+  if (email && !email.includes('@')) {
+    modalEmail.style.borderColor = '#C1512E';
+    modalEmail.style.boxShadow = '0 0 0 4px rgba(193,81,46,0.2)';
+    modalEmail.focus();
+    return;
+  }
+
+  modalEmail.style.borderColor = '';
+  modalEmail.style.boxShadow = '';
+  modal.classList.remove('active');
+  confirmarPresenca(email || null);
+});
+
+// Pular (confirmar sem email)
+modalBtnSkip.addEventListener('click', function() {
+  modal.classList.remove('active');
+  confirmarPresenca(null);
+});
+
+// Fechar modal clicando fora
+modal.addEventListener('click', function(e) {
+  if (e.target === modal) {
+    modal.classList.remove('active');
+  }
+});
+
+// Enter no campo de email
+modalEmail.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    modalBtnConfirm.click();
+  }
+});
+
+// ===== INICIALIZAÇÃO =====
+const temDadosSalvos = verificarLoginSalvo();
+
+if (!temDadosSalvos) {
+  loginCard.classList.remove('hidden');
+  invite.classList.remove('show');
+  invite.style.display = 'none';
 }
 
-.modal-sub {
-  text-align: center;
-  color: var(--sage);
-  font-size: 14px;
-  margin: 4px 0 20px;
-  line-height: 1.6;
-}
+hideError();
+confirmedPanel.classList.remove('show');
 
-.modal-form label {
-  display: block;
-  font-size: 12px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--sage);
-  margin-bottom: 6px;
-  margin-top: 0;
-}
-
-.modal-form input[type="email"] {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(212, 165, 116, 0.2);
-  border-radius: 12px;
-  color: var(--cream);
-  font-family: 'Jost', sans-serif;
-  font-size: 16px;
-  padding: 14px 16px;
-  outline: none;
-  transition: all .3s ease;
-}
-
-.modal-form input[type="email"]::placeholder {
-  color: rgba(74, 58, 58, 0.3);
-}
-
-.modal-form input[type="email"]:focus {
-  border-color: var(--gold);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 4px rgba(212, 165, 116, 0.1);
-}
-
-.modal-hint {
-  display: block;
-  font-size: 12px;
-  color: rgba(184, 149, 138, 0.7);
-  margin-top: 8px;
-  margin-bottom: 20px;
-}
-
-.modal-btn-confirm {
-  width: 100%;
-  padding: 16px;
-  background: var(--rose);
-  color: #fff;
-  border: none;
-  border-radius: 50px;
-  font-family: 'Jost', sans-serif;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all .3s ease;
-  box-shadow: 0 4px 20px rgba(232, 160, 160, 0.3);
-}
-
-.modal-btn-confirm:hover {
-  background: var(--rose-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(232, 160, 160, 0.4);
-}
-
-.modal-btn-confirm:active {
-  transform: scale(.98);
-}
-
-.modal-btn-skip {
-  width: 100%;
-  padding: 12px;
-  background: transparent;
-  color: var(--sage);
-  border: none;
-  font-family: 'Jost', sans-serif;
-  font-size: 13px;
-  cursor: pointer;
-  transition: color .3s ease;
-  margin-top: 8px;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  opacity: 0.6;
-}
-
-.modal-btn-skip:hover {
-  color: var(--cream);
-  opacity: 1;
-}
-/* ===== TOAST (MENSAGENS BONITAS) ===== */
-.toast {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: var(--bg-panel);
-  border-radius: 16px;
-  padding: 16px 24px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(212, 165, 116, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  z-index: 10000;
-  opacity: 0;
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  max-width: 90%;
-  min-width: 280px;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-.toast.success {
-  border-color: #4CAF50;
-  border-left: 4px solid #4CAF50;
-}
-
-.toast.error {
-  border-color: #C1512E;
-  border-left: 4px solid #C1512E;
-}
-
-.toast.info {
-  border-color: var(--gold);
-  border-left: 4px solid var(--gold);
-}
-
-.toast-icon {
-  font-size: 24px;
-  flex-shrink: 0;
-}
-
-.toast-message {
-  font-size: 14px;
-  color: var(--cream);
-  line-height: 1.5;
-  flex: 1;
-}
+// Limpar dados para teste (descomente se precisar)
+// localStorage.removeItem('convidado_confirmado');

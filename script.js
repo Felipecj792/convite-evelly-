@@ -106,11 +106,11 @@
     const acompanhante = confirmBtn.dataset.acompanhante || '';
 
     const assunto = `Confirmação de presença — ${nome} ${sobrenome}`;
-    let corpo = `Olá Marina!\n\n${nome} ${sobrenome} confirmou presença na festa de aniversário.\n`;
+    let corpo = `Olá Evelly!\n\n${nome} ${sobrenome} confirmou presença na festa de aniversário.\n`;
     corpo += acompanhante
       ? `Vai levar acompanhante: ${acompanhante}.\n`
       : `Vai sozinho(a), sem acompanhante.\n`;
-    corpo += `\nLocal: Jardim Casa das Palmeiras — Rua das Acácias, 245\nData: Sábado, 15 de agosto de 2026 às 19h30\n\nAté lá! 🎉`;
+    corpo += `\nLocal: Cerimonial le Composé— Rua Tupinua, Vale do sol\nData: Sábado, 10 de agosto de 2026 às 19h30\n\nAté lá! 🎉`;
 
     const link = `mailto:${EMAIL_ANFITRIA}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
     window.location.href = link;
@@ -119,7 +119,7 @@
     confirmBtn.classList.add('confirmed');
     confirmNote.textContent = 'Seu app de e-mail abriu com a confirmação pronta — é só enviar.';
 
-    confirmedMsg.textContent = `Que alegria te ter com a gente, ${nome}! Sua confirmação já foi enviada para a Marina.`;
+    confirmedMsg.textContent = `Que alegria te ter com a gente, ${nome}! Sua confirmação já foi enviada.`;
     confirmedPanel.classList.add('show');
   });
 

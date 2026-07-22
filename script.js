@@ -3,7 +3,7 @@ const SUPABASE_URL = 'https://kykocdauoighogdwjdle.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5a29jZGF1b2lnaG9nZHdqZGxlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3MDc0NTAsImV4cCI6MjEwMDI4MzQ1MH0.Ss3NcMoC7WA6JuwvL3gybfZKRww9pJgIgeWnxpLq2Yc';
 
 // ----- CONFIGURAÇÃO -----
-const CODIGO_VALIDO = "MARINA15";
+const CODIGO_VALIDO = "439801";
 const EMAIL_ANFITRIA = "felipechat321@gmail.com";
 
 // ----- DOM -----

@@ -22,6 +22,12 @@ const confirmNote = document.getElementById('confirmNote');
 const confirmedPanel = document.getElementById('confirmedPanel');
 const confirmedMsg = document.getElementById('confirmedMsg');
 
+// ----- MODAL -----
+const modal = document.getElementById('modalConfirmacao');
+const modalEmail = document.getElementById('modalEmail');
+const modalBtnConfirm = document.getElementById('modalBtnConfirm');
+const modalBtnSkip = document.getElementById('modalBtnSkip');
+
 // ----- FUNÇÃO PARA FORMATAR ACOMPANHANTE -----
 function formatarAcompanhante(nome, sobrenome, acompanhante) {
   let texto = `${nome} ${sobrenome}`;
@@ -206,34 +212,30 @@ form.addEventListener('submit', function(e) {
   confirmBtn.dataset.acompanhante = acompanhante;
 });
 
-// ----- CONFIRMAR PRESENÇA -----
-confirmBtn.addEventListener('click', async function() {
-  if (confirmBtn.classList.contains('confirmed')) return;
-
+// ===== FUNÇÃO PARA CONFIRMAR PRESENÇA =====
+async function confirmarPresenca(email) {
   const nome = confirmBtn.dataset.nome || '';
   const sobrenome = confirmBtn.dataset.sobrenome || '';
   const acompanhante = confirmBtn.dataset.acompanhante || '';
 
-  const email = prompt('Digite seu email (opcional):');
-  const telefone = prompt('Digite seu telefone (opcional):');
-
   try {
+    // Salva no Supabase
     await salvarConfirmacao({
       nome: nome,
       sobrenome: sobrenome,
       acompanhante: acompanhante || null,
       email: email || null,
-      telefone: telefone || null,
+      telefone: null,
       status: 'confirmado'
     });
 
+    // Atualiza localStorage
     const dadosSalvos = localStorage.getItem('convidado_confirmado');
     if (dadosSalvos) {
       try {
         const dados = JSON.parse(dadosSalvos);
         dados.confirmado = true;
         dados.email = email || '';
-        dados.telefone = telefone || '';
         dados.data_confirmacao = new Date().toISOString();
         localStorage.setItem('convidado_confirmado', JSON.stringify(dados));
       } catch (e) {
@@ -241,21 +243,24 @@ confirmBtn.addEventListener('click', async function() {
       }
     }
 
-    const assunto = `Confirmação de presença — ${nome} ${sobrenome}`;
-    let corpo = `Olá Marina!\n\n${nome} ${sobrenome} confirmou presença no seu baile de 15 anos!\n`;
-    corpo += acompanhante
-      ? `Vai levar acompanhante: ${acompanhante}.\n`
-      : `Vai sozinho(a), sem acompanhante.\n`;
-    corpo += email ? `Email: ${email}\n` : '';
-    corpo += telefone ? `Telefone: ${telefone}\n` : '';
-    corpo += `\nLocal: Jardim Casa das Palmeiras — Rua das Acácias, 245\nData: Sábado, 15 de agosto de 2026 às 19h30\n\nAté lá! 🎉`;
+    // Abre o email (se tiver email)
+    if (email) {
+      const assunto = `Confirmação de presença — ${nome} ${sobrenome}`;
+      let corpo = `Olá Marina!\n\n${nome} ${sobrenome} confirmou presença no seu baile de 15 anos!\n`;
+      corpo += acompanhante
+        ? `Vai levar acompanhante: ${acompanhante}.\n`
+        : `Vai sozinho(a), sem acompanhante.\n`;
+      corpo += email ? `Email: ${email}\n` : '';
+      corpo += `\nLocal: Jardim Casa das Palmeiras — Rua das Acácias, 245\nData: Sábado, 10 de agosto de 2026 às 19h30\n\nAté lá! 🎉`;
 
-    const link = `mailto:${EMAIL_ANFITRIA}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-    window.location.href = link;
+      const link = `mailto:${EMAIL_ANFITRIA}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+      window.location.href = link;
+    }
 
+    // Atualiza UI
     confirmBtn.textContent = 'Presença confirmada ✓';
     confirmBtn.classList.add('confirmed');
-    confirmNote.textContent = 'Sua presença foi confirmada! O email foi aberto para envio.';
+    confirmNote.textContent = 'Sua presença foi confirmada!';
 
     confirmedMsg.textContent = `Que alegria te ter com a gente, ${nome}! Sua confirmação foi registrada.`;
     confirmedPanel.classList.add('show');
@@ -264,9 +269,60 @@ confirmBtn.addEventListener('click', async function() {
     alert('Erro ao confirmar presença. Tente novamente.');
     console.error(error);
   }
+}
+
+// ===== EVENTOS DO MODAL =====
+
+// Abrir modal ao clicar em confirmar
+confirmBtn.addEventListener('click', function() {
+  if (confirmBtn.classList.contains('confirmed')) return;
+
+  modalEmail.value = '';
+  modalEmail.style.borderColor = '';
+  modalEmail.style.boxShadow = '';
+  modal.classList.add('active');
+  setTimeout(() => modalEmail.focus(), 300);
 });
 
-// ----- INICIALIZAÇÃO -----
+// Confirmar com email
+modalBtnConfirm.addEventListener('click', function() {
+  const email = modalEmail.value.trim();
+
+  // Validação básica
+  if (email && !email.includes('@')) {
+    modalEmail.style.borderColor = '#C1512E';
+    modalEmail.style.boxShadow = '0 0 0 4px rgba(193,81,46,0.2)';
+    modalEmail.focus();
+    return;
+  }
+
+  modalEmail.style.borderColor = '';
+  modalEmail.style.boxShadow = '';
+  modal.classList.remove('active');
+  confirmarPresenca(email || null);
+});
+
+// Pular (confirmar sem email)
+modalBtnSkip.addEventListener('click', function() {
+  modal.classList.remove('active');
+  confirmarPresenca(null);
+});
+
+// Fechar modal clicando fora
+modal.addEventListener('click', function(e) {
+  if (e.target === modal) {
+    modal.classList.remove('active');
+  }
+});
+
+// Enter no campo de email
+modalEmail.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    modalBtnConfirm.click();
+  }
+});
+
+// ===== INICIALIZAÇÃO =====
 verificarLoginSalvo();
 hideError();
 confirmedPanel.classList.remove('show');

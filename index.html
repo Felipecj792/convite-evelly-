@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Convite — Aniversário de Evelly</title>
+  <title>Convite — 15 anos da Marina</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -44,21 +44,22 @@
 
     <!-- CONVITE REVELADO -->
     <div class="invite" id="invite">
+      <div class="decorative-line">✦</div>
       <p class="greeting" id="greeting">Olá!</p>
-      <h2>Você está convidado(a) para o aniversário de</h2>
-      <p class="name">Evelly Inacio</p>
-      <p class="age">15 anos</p>
+      <h2>Você está convidado(a) para o</h2>
+      <h3>15 anos</h3>
+      <p class="name">Evelly Inácio</p>
       <div class="divider"></div>
 
       <div class="details">
         <div class="detail-row"><span class="k">Data</span><span class="v">Sábado, 10 de agosto de 2026</span></div>
         <div class="detail-row"><span class="k">Horário</span><span class="v">19h30 — chegada dos convidados</span></div>
-        <div class="detail-row"><span class="k">Local</span><span class="v">Cerimonial Le Compose Rua Tupinua,Vale do sol </span></div>
+        <div class="detail-row"><span class="k">Local</span><span class="v">Jardim Casa das Palmeiras — Rua das Acácias, 245</span></div>
       </div>
 
       <div class="rsvp-box" id="rsvpBox">
-        Olá, <b id="rsvpName">—</b>! Ficaríamos muito felizes em te ter conosco nessa noite.
-        A festa será no <b>Cerimonial Le Composé</b>, na Rua Tupinua, Vale do sol, a partir das 19h30.
+        Olá, <b id="rsvpName">—</b>! Ficaríamos muito felizes em te ter conosco nessa noite especial.
+        O baile será no <b>Jardim Casa das Palmeiras</b>, na Rua das Acácias, 245, a partir das 19h30.
         Clique abaixo para confirmar sua presença.
       </div>
 
@@ -67,11 +68,34 @@
 
       <div class="confirmed-panel" id="confirmedPanel">
         <p class="check">✓ Presença confirmada</p>
-        <p id="confirmedMsg">Que alegria te ter com a gente, —! Sua confirmação já foi enviada.</p>
-        
+        <p id="confirmedMsg">Que alegria te ter com a gente, —! Sua confirmação foi registrada.</p>
+        <div class="mini-details">
+          <div class="mini-row"><span class="k">Local</span><span class="v">Jardim Casa das Palmeiras — Rua das Acácias, 245</span></div>
+          <div class="mini-row"><span class="k">Data</span><span class="v">Sábado, 10 de agosto de 2026, às 19h30</span></div>
+        </div>
       </div>
 
-      <p class="signature"></p>
+  <!-- ===== MODAL DE CONFIRMAÇÃO ===== -->
+  <div class="modal-overlay" id="modalConfirmacao">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span class="modal-icon">🎉</span>
+        <h3>Confirmar Presença</h3>
+        <p class="modal-sub">Digite seu email para receber a confirmação</p>
+      </div>
+      
+      <div class="modal-form">
+        <label for="modalEmail">Seu email</label>
+        <input type="email" id="modalEmail" placeholder="exemplo@email.com" autocomplete="email">
+        <small class="modal-hint">🔒 Seus dados ficam seguros</small>
+        
+        <button type="button" class="modal-btn-confirm" id="modalBtnConfirm">
+          ✅ Confirmar presença
+        </button>
+        <button type="button" class="modal-btn-skip" id="modalBtnSkip">
+          Pular (confirmar sem email)
+        </button>
+      </div>
     </div>
   </div>
 

@@ -28,6 +28,9 @@ const modalEmail = document.getElementById('modalEmail');
 const modalBtnConfirm = document.getElementById('modalBtnConfirm');
 const modalBtnSkip = document.getElementById('modalBtnSkip');
 
+// ----- TOAST (mensagens bonitas) -----
+const toast = document.getElementById('toast');
+
 // ----- FUNÇÃO PARA FORMATAR ACOMPANHANTE -----
 function formatarAcompanhante(nome, sobrenome, acompanhante) {
   let texto = `${nome} ${sobrenome}`;
@@ -68,9 +71,37 @@ function hideError() {
   loginCard.classList.remove('shake');
 }
 
+// ----- MOSTRAR TOAST (mensagem bonita) -----
+function showToast(message, type = 'success') {
+  const toast = document.getElementById('toast');
+  const toastMessage = document.getElementById('toastMessage');
+  const toastIcon = document.getElementById('toastIcon');
+  
+  toastMessage.textContent = message;
+  
+  if (type === 'success') {
+    toastIcon.textContent = '✅';
+    toast.className = 'toast show success';
+  } else if (type === 'error') {
+    toastIcon.textContent = '❌';
+    toast.className = 'toast show error';
+  } else {
+    toastIcon.textContent = 'ℹ️';
+    toast.className = 'toast show info';
+  }
+  
+  // Esconde após 5 segundos
+  clearTimeout(toast.timeout);
+  toast.timeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 5000);
+}
+
 // ----- SALVAR NO SUPABASE -----
 async function salvarConfirmacao(dados) {
   try {
+    console.log('Enviando para Supabase:', dados);
+    
     const response = await fetch(`${SUPABASE_URL}/rest/v1/confirmacoes`, {
       method: 'POST',
       headers: {
@@ -81,15 +112,17 @@ async function salvarConfirmacao(dados) {
       body: JSON.stringify(dados)
     });
 
+    console.log('Resposta do Supabase:', response.status);
+
     if (!response.ok) {
       const erro = await response.text();
       console.error('Erro do Supabase:', erro);
-      throw new Error('Erro ao salvar no Supabase');
+      throw new Error(`Erro ${response.status}: ${erro}`);
     }
 
     return await response.json();
   } catch (error) {
-    console.error('Erro:', error);
+    console.error('Erro ao salvar:', error);
     throw error;
   }
 }
@@ -129,9 +162,16 @@ function verificarLoginSalvo() {
   if (dadosSalvos) {
     try {
       const dados = JSON.parse(dadosSalvos);
+      
+      // VERIFICA SE OS DADOS SÃO VÁLIDOS
+      if (!dados.nome || !dados.sobrenome) {
+        localStorage.removeItem('convidado_confirmado');
+        return false;
+      }
+      
       const nome = dados.nome;
       const sobrenome = dados.sobrenome;
-      const acompanhante = dados.acompanhante;
+      const acompanhante = dados.acompanhante || '';
 
       const greeting = document.getElementById('greeting');
       greeting.textContent = `Olá, ${nome}!`;
@@ -220,7 +260,7 @@ async function confirmarPresenca(email) {
 
   try {
     // Salva no Supabase
-    await salvarConfirmacao({
+    const resultado = await salvarConfirmacao({
       nome: nome,
       sobrenome: sobrenome,
       acompanhante: acompanhante || null,
@@ -228,6 +268,8 @@ async function confirmarPresenca(email) {
       telefone: null,
       status: 'confirmado'
     });
+
+    console.log('Salvo com sucesso:', resultado);
 
     // Atualiza localStorage
     const dadosSalvos = localStorage.getItem('convidado_confirmado');
@@ -239,9 +281,12 @@ async function confirmarPresenca(email) {
         dados.data_confirmacao = new Date().toISOString();
         localStorage.setItem('convidado_confirmado', JSON.stringify(dados));
       } catch (e) {
-        console.error('Erro ao salvar confirmação:', e);
+        console.error('Erro ao salvar confirmação no localStorage:', e);
       }
     }
+
+    // Mostra toast de sucesso
+    showToast(`✅ Presença confirmada! ${email ? 'Um email foi enviado para você.' : ''}`, 'success');
 
     // Abre o email (se tiver email)
     if (email) {
@@ -251,23 +296,27 @@ async function confirmarPresenca(email) {
         ? `Vai levar acompanhante: ${acompanhante}.\n`
         : `Vai sozinho(a), sem acompanhante.\n`;
       corpo += email ? `Email: ${email}\n` : '';
-      corpo += `\nLocal: Jardim Casa das Palmeiras — Rua das Acácias, 245\nData: Sábado, 10 de agosto de 2026 às 19h30\n\nAté lá! 🎉`;
+      corpo += `\n📍 Local: Jardim Casa das Palmeiras — Rua das Acácias, 245\n📅 Data: Sábado, 10 de agosto de 2026 às 19h30\n\nAté lá! 🎉`;
 
       const link = `mailto:${EMAIL_ANFITRIA}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
-      window.location.href = link;
+      
+      // Abre o email em uma nova janela
+      setTimeout(() => {
+        window.open(link, '_blank');
+      }, 500);
     }
 
     // Atualiza UI
     confirmBtn.textContent = 'Presença confirmada ✓';
     confirmBtn.classList.add('confirmed');
-    confirmNote.textContent = 'Sua presença foi confirmada!';
+    confirmNote.textContent = 'Sua presença foi confirmada! Você receberá um email com a localização.';
 
-    confirmedMsg.textContent = `Que alegria te ter com a gente, ${nome}! Sua confirmação foi registrada.`;
+    confirmedMsg.textContent = `Que alegria te ter com a gente, ${nome}! Sua confirmação foi registrada. 📍`;
     confirmedPanel.classList.add('show');
 
   } catch (error) {
-    alert('Erro ao confirmar presença. Tente novamente.');
-    console.error(error);
+    console.error('Erro ao confirmar:', error);
+    showToast(`❌ Erro ao confirmar presença: ${error.message}`, 'error');
   }
 }
 
@@ -322,7 +371,20 @@ modalEmail.addEventListener('keydown', function(e) {
   }
 });
 
+// ===== LIMPAR DADOS SALVOS (para teste) =====
+// Descomente a linha abaixo para limpar o localStorage e forçar o login
+// localStorage.removeItem('convidado_confirmado');
+
 // ===== INICIALIZAÇÃO =====
-verificarLoginSalvo();
+// Verifica se tem dados salvos, se não tiver, mostra o login
+const temDadosSalvos = verificarLoginSalvo();
+
+// Se não tiver dados salvos, garante que o login está visível
+if (!temDadosSalvos) {
+  loginCard.classList.remove('hidden');
+  invite.classList.remove('show');
+  invite.style.display = 'none';
+}
+
 hideError();
 confirmedPanel.classList.remove('show');
